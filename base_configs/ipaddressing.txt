@@ -2,15 +2,15 @@ R1
 
 int e0/0
  ip add 172.16.12.1 255.255.255.0
- no shut
+ shut
 !
 int e0/1
  ip add 172.16.14.1 255.255.255.0
- no shut
+ shut
 !
 int e0/2
  ip add 172.16.16.1 255.255.255.0
- no shut
+ shut
 !
 int lo0
  ip add 1.1.1.1 255.255.255.255
@@ -19,19 +19,19 @@ int lo0
 
  int e0/0
   ip add 172.16.12.2 255.255.255.0
-  no shut
+  shut
 !
 int e0/1
  ip add 172.16.23.2 255.255.255.0
- no shut
+ shut
 !
 int e0/2
  ip add 172.16.25.2 255.255.255.0
- no shut
+ shut
 !
 int e0/3
  ip add 172.16.26.2 255.255.255.0
- no shut
+ shut
 !
  int lo0
   ip add 2.2.2.2 255.255.255.255
@@ -40,15 +40,15 @@ int e0/3
 
   int e0/0
    ip add 172.16.34.3 255.255.255.0
-   no shut
+   shut
  !
  int e0/1
   ip add 172.16.23.3 255.255.255.0
-  no shut
+  shut
  !
  int e0/3
   ip add 172.16.103.3 255.255.255.0
-  no shut
+  shut
  !
   int lo0
    ip add 3.3.3.3 255.255.255.255
@@ -57,15 +57,15 @@ R4
 
 int e0/1
  ip add 172.16.14.4 255.255.255.0
- no shut
+ shut
 !
 int e0/0
  ip add 172.16.34.4 255.255.255.0
- no shut
+ shut
 !
 int e0/2
  ip add 172.16.104.4 255.255.255.0
- no shut
+ shut
 !
 int loopback0
  ip add 4.4.4.4 255.255.255.255
@@ -74,7 +74,7 @@ R5
 
 int e0/2
  ip add 172.16.25.2 255.255.255.0
- no shut
+ shut
 !
 int loopback0
  ip add 5.5.5.5 255.255.255.255
@@ -84,19 +84,19 @@ R6
 !
 int e0/0
  ip add 172.16.69.6 255.255.255.0
- no shut
+ shut
 !
 int e0/1
   ip add 172.16.67.6 255.255.255.0
-  no shut
+  shut
 !
 int e0/2
   ip add 172.16.16.6 255.255.255.0
-  no shut
+  shut
 !
 int e0/3
   ip add 172.16.26.6 255.255.255.0
-  no shut
+  shut
 !
 interface loopback0
  ip add 6.6.6.6 255.255.255.255
@@ -105,11 +105,11 @@ R7
 
 int e0/0
  ip add 172.16.78.7 255.255.255.0
- no shut
+ shut
 !
 int e0/1
   ip add 172.16.67.7 255.255.255.0
-  no shut
+  shut
 !
 interface loopback0
  ip add 7.7.7.7 255.255.255.255
@@ -118,7 +118,7 @@ R8
 
 int e0/0
  ip add 172.16.78.8 255.255.255.0
- no shut
+ shut
 !
 interface loopback0
  ip add 8.8.8.8 255.255.255.255
@@ -127,7 +127,7 @@ R9
 
 int e0/0
  ip add 172.16.69.9 255.255.255.0
- no shut
+ shut
 !
 interface loopback0
  ip add 9.9.9.9 255.255.255.255
@@ -136,15 +136,15 @@ interface loopback0
 
  int e0/0
   ip add 172.16.101.10 255.255.255.0
-  no shut
+  shut
  !
  int e0/2
   ip add 172.16.104.10 255.255.255.0
-  no shut
+  shut
  !
  int e0/3
   ip add 172.16.103.10 255.255.255.0
-  no shut
+  shut
  !
  interface loopback0
   ip add 10.10.10.10 255.255.255.255
@@ -153,7 +153,7 @@ interface loopback0
 
   int e0/0
    ip add 172.16.101.11 255.255.255.0
-   no shut
+   shut
   !
   interface loopback0
    ip add 11.11.11.11 255.255.255.255
@@ -184,3 +184,48 @@ int l9
  ip add 199.10.8.1 255.255.255.0
 int l10
  ip add 199.10.9.1 255.255.255.0
+
+-------------------------
+
+filter internal
+
+R9
+
+int l1
+ ip add 172.16.200.1 255.255.255.0
+int l2
+ ip add 172.16.201.1 255.255.255.0
+int l3
+ ip add 172.16.202.1 255.255.255.0
+int l4
+ ip add 172.16.203.1 255.255.255.0
+int l5
+ ip add 172.16.204.1 255.255.255.0
+int l6
+ ip add 172.16.205.1 255.255.255.0
+
+200
+
+128 64 32 16 8 4 2 1
+
+1    1  0  0 1 0 0 0
+
+1 1 0 0 1 0 0 0
+
+0 0 0 0 1 1 1 1
+
+no ip prefix-list AREA300-PREFIXES deny 172.16.200.0/24
+no ip prefix-list AREA300-PREFIXES deny 172.16.201.0/24
+no ip prefix-list AREA300-PREFIXES deny 172.16.202.0/24
+no ip prefix-list AREA300-PREFIXES deny 172.16.203.0/24
+no ip prefix-list AREA300-PREFIXES deny 172.16.204.0/24
+no ip prefix-list AREA300-PREFIXES deny 172.16.205.0/24
+no ip prefix-list AREA300-PREFIXES permit 0.0.0.0/0 le 32
+
+
+ip prefix-list AREA300-PREFIXES seq 5 permit 172.16.200.0/24
+ip prefix-list AREA300-PREFIXES seq 10 permit 172.16.201.0/24
+ip prefix-list AREA300-PREFIXES seq 15 permit 172.16.202.0/24
+ip prefix-list AREA300-PREFIXES seq 20 permit 172.16.203.0/24
+ip prefix-list AREA300-PREFIXES seq 25 permit 172.16.204.0/24
+ip prefix-list AREA300-PREFIXES seq 30 permit 172.16.205.0/24
